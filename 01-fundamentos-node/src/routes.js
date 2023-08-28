@@ -1,17 +1,26 @@
+import { randomUUID as generateId } from "node:crypto";
 import { Database } from "./database.js";
-import { generateId } from "./utils/generateId.js";
-// É falado na aula que se pode usar o <randomUUID>, mas eu antes mesmo de chegar nessa aula fiz essa função no utils simples de fazer um id incremental então não vou tirar ele, porém a substituição é simples, basta fazer o import a seguir:
-// import { randomUUID } from "node:crypto";
-// e na parte onde tem id em newUser substituir o <generateId()> por <randomUUID()>
+import { buildRoutePath } from "./utils/build-route-path.js";
 
 const database = new Database();
 
 export const routes = [
   {
     method: "GET",
-    path: "/users",
+    path: buildRoutePath("/users"),
     handler: (req, res) => {
-      const users = database.select("users");
+      const { search } = req.query;
+
+      const users = database.select(
+        "users",
+        search
+          ? {
+              name: search,
+              email: search,
+              ocupation: search,
+            }
+          : null
+      );
 
       return res
         .writeHead(200, "Todos os usuários foram listados")
@@ -20,7 +29,7 @@ export const routes = [
   },
   {
     method: "POST",
-    path: "/users",
+    path: buildRoutePath("/users"),
     handler: (req, res) => {
       const { name, email, age, ocupation } = req.body;
 
@@ -37,6 +46,30 @@ export const routes = [
       return res
         .writeHead(201, "Usuário criado com sucesso")
         .end(JSON.stringify(newUser));
+    },
+  },
+  {
+    method: "PUT",
+    path: buildRoutePath("/users/:id"),
+    handler: (req, res) => {
+      const { id } = req.params;
+      const { name, email, age, ocupation } = req.body;
+      const updatedUser = { name, email, age, ocupation };
+
+      database.update("users", id, updatedUser);
+
+      return res.writeHead(200, "Usuário atualizado com sucesso").end();
+    },
+  },
+  {
+    method: "DELETE",
+    path: buildRoutePath("/users/:id"),
+    handler: (req, res) => {
+      const { id } = req.params;
+
+      database.delete("users", id);
+
+      return res.writeHead(204, "Usuário deletado com sucesso").end();
     },
   },
 ];
