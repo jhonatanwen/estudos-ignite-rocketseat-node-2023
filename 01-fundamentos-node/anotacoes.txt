@@ -1,17 +1,29 @@
-- Listagem usuários
-- Edição de usuários
-- Remoção de usuários
-- HTTP
-  - Método HTTP
-  - URL
-GET, POST, PUT, PATCH, DELETE
-GET => Buscar um recurso do back-end
-POST => Criar um recurso no back-end
-PUT => Atualizar um recurso no back-end
-PATCH => Atualizar uma informação específica de um recurso no back-end
-DELETE => Deletar um recurso do back-end
-GET /users => Buscando usuários no back-end
-POST /users => Criar um usuário no back-end
-Stateful - Stateless
-Cabeçalhos (Requisição/resposta) => Metadados
-HTTP Status Code
+Servidor & HTTP:
+  Listagem usuários
+  Edição de usuários
+  Remoção de usuários
+  HTTP:
+    - Método HTTP
+    - URL
+    - GET, POST, PUT, PATCH, DELETE
+    - GET => Buscar um recurso do back-end
+    - POST => Criar um recurso no back-end
+    - PUT => Atualizar um recurso no back-end
+    - PATCH => Atualizar uma informação específica de um recurso no back-end
+    - DELETE => Deletar um recurso do back-end
+    - GET /users => Buscando usuários no back-end
+    - POST /users => Criar um usuário no back-end
+  Stateful - Stateless
+  Cabeçalhos/Headers (Requisição/resposta) => Metadados
+  HTTP Status Code:
+    - docs: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+Requisição para o Back-end pelo Front-end(Aplicação):
+  Query Parameters:
+    - URL Stateful => filtros, paginação, não-obrigatórios
+    ex: http://localhost:3333/users?(-->userId=1&name=Jhonatan<--)
+  Route Parameters:
+    - Identificação de recurso
+    ex: http://localhost:3333/users(-->/1<--)
+  Request Body:
+    - Envio de informações de um formulário (https)
+    ex: um json enviado no body da requisição
